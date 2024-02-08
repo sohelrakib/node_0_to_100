@@ -1,0 +1,41 @@
+urls:
+======
+https://www.digitalocean.com/community/tutorials/how-to-use-sequelize-with-node-js-and-mysql
+
+
+step 1:
+-------
+first I run: npm init
+
+
+step 2:
+-------
+install express: npm install express
+
+
+step 3:
+-------
+install nodemon: sudo npm install nodemon
+
+
+step 4:
+-------
+in package.json
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+then in terminal run this command: npm run start
+
+
+step 5:
+-------
+install template engine, ejs: npm install ejs
+
+
+step 6:
+--------
+
+step :
+--------
+tables: user, address, dept, job
