@@ -35,6 +35,14 @@ install template engine, ejs: npm install ejs
 
 step 6:
 --------
+for sequelize: npm i sequelize
+i => install
+
+
+step 7:
+-------
+for mysql2: npm i mysql2
+
 
 step :
 --------
