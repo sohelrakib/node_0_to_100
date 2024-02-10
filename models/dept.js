@@ -13,6 +13,8 @@ const Dept = sequelize.define('dept', {
     name: Sequelize.STRING,
     status: Sequelize.INTEGER,
 
+}, {
+    timestamps: false
 });
 
 module.exports = Dept;

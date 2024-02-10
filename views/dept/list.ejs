@@ -1,0 +1,36 @@
+<%- include('../master/head.ejs') %>
+    
+<div class="row">
+    <div class="col-md-8">
+
+        <h2 class="text-center p-4">All dept list</h2>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% if (depts.length) { %>
+                <% for ( let dept of depts ) { %>
+              <tr>
+                <td><%= dept.name %></td>
+                <td><%= dept.status ? 'Enable' : 'Disable' %></td>
+              </tr>
+              <% } %>
+            <% } else { %>
+                <tr>
+                    <td>No Dept Found</td>
+                </tr>
+            <% } %>
+              
+            </tbody>
+          </table>
+
+    </div>
+</div>
+
+
+<%- include('../master/tail.ejs') %>

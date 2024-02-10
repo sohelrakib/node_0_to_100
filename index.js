@@ -9,10 +9,11 @@ const PORT = 3000;
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-//importing the model, so table will be created automatically
+//importing the model, so table will be created/migrated automatically
 const Dept = require('./models/dept');
 
 const userRoute = require('./routes/userRoute');
+const deptRoute = require('./routes/deptRoute');
 const errorController = require('./controllers/errorController');
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -22,11 +23,12 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', (req, res, next) => {
-    res.send('<html><h1>Hello World</h1></html>');
+    // res.send('<html><h1>Hello World</h1></html>');
+    res.redirect('/user');
 })
 
 app.use('/user', userRoute);
-
+app.use('/dept', deptRoute);
 app.use(errorController.pageNotFound);
 
 // app.listen(PORT, () => {
@@ -34,8 +36,8 @@ app.use(errorController.pageNotFound);
 // });
 
 
-sequelize.sync({ force: true })
-// sequelize.sync()
+// sequelize.sync({ force: true })
+sequelize.sync()
     .then( () => {
         // app.listen(3000);
         app.listen(PORT, () => {
