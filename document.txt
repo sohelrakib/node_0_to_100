@@ -51,7 +51,5 @@ tables: user, address, dept, job
 
 step 9:
 -------
-Session:
---------
-npm install --save express-session
+Session: npm install --save express-session
 for flash message or session message: npm install --save connect-flash
