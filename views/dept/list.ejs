@@ -3,6 +3,12 @@
 <div class="row">
     <div class="col-md-8">
 
+      <% if (flash_msg) { %>
+        <div>
+            <h3><%= flash_msg %></h3>
+        </div>
+      <% } %>
+
         <h2 class="text-center p-4">All dept list</h2>
 
         <table class="table">

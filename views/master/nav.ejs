@@ -12,12 +12,17 @@
           </li>
 
           <li class="nav-item">
+            <a class="nav-link <%= index === 'add' ? 'active' : '' %>" href="/student/add">Add a Student</a>
+          </li> 
+
+          <li class="nav-item">
             <a class="nav-link <%= index === 'dept' ? 'active' : '' %>" href="/dept">All Dept</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link <%= index === 'add' ? 'active' : '' %>" href="/student/add">Add a Student</a>
+            <a class="nav-link <%= index === 'dept.add' ? 'active' : '' %>" href="/dept/add">Add a Dept</a>
           </li> 
+
           
         </ul>
       </div>

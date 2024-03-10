@@ -1,6 +1,8 @@
 const path = require('path');
 const bodyParser = require('body-parser');
 const sequelize = require('./utill/database');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const express = require('express');
 const app = express();
@@ -17,10 +19,17 @@ const deptRoute = require('./routes/deptRoute');
 const errorController = require('./controllers/errorController');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+
+app.use(flash());
 
 app.get('/', (req, res, next) => {
     // res.send('<html><h1>Hello World</h1></html>');
