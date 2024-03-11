@@ -6,6 +6,8 @@
         <h2 class="text-center p-4">Create a Dept</h2>
         
         <form action="/dept/add" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            
             <div class="mb-3 mt-3">
               <label for="name">Name:</label>
               <input type="text" class="form-control" id="name" placeholder="enter dept name" name="name" required>

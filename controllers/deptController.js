@@ -1,6 +1,8 @@
 const Dept = require('../models/dept');
 
 exports.index = (req, res, next) => {
+    // res.send(res.locals.csrfToken);
+
     Dept.findAll({
         // where: {
         //     status: 1,

@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const sequelize = require('./utill/database');
 const session = require('express-session');
 const flash = require('connect-flash');
+const csrf = require('csurf');
 
 const express = require('express');
+const csrfProtection = csrf();
 const app = express();
 const PORT = 3000;
 
@@ -29,7 +31,13 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
+app.use(csrfProtection);
 app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 
 app.get('/', (req, res, next) => {
     // res.send('<html><h1>Hello World</h1></html>');
