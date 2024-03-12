@@ -4,8 +4,9 @@
     <div class="col-md-8">
 
       <% if (flash_msg) { %>
-        <div>
-            <h3><%= flash_msg %></h3>
+        <!-- <div class="<%= 'alert alert-' + flash_alert %>" > -->
+        <div class="alert alert-<%= flash_alert %>" >
+          <%= flash_msg %>
         </div>
       <% } %>
 
@@ -16,20 +17,28 @@
               <tr>
                 <th>Name</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
             <% if (depts.length) { %>
                 <% for ( let dept of depts ) { %>
-              <tr>
-                <td><%= dept.name %></td>
-                <td><%= dept.status ? 'Enable' : 'Disable' %></td>
-              </tr>
+                <tr>
+                  <td><%= dept.name %></td>
+                  <td><%= dept.status ? 'Enable' : 'Disable' %></td>
+                  <td>
+                    <form action="/dept/delete" method="post">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                      <input type="hidden" name="deptId" value="<%= dept.id %>" />
+                      <button class="btn btn-danger btn-width-full" type="submit">Delete</button>
+                    </form>
+                  </td>
+                </tr>
               <% } %>
             <% } else { %>
-                <tr>
-                    <td>No Dept Found</td>
-                </tr>
+                  <tr>
+                      <td>No Dept Found</td>
+                  </tr>
             <% } %>
               
             </tbody>

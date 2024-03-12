@@ -23,13 +23,22 @@ exports.index = (req, res, next) => {
         } else {
             flash_msg = null;
         }
+
+        let flash_alert = req.flash('flash_alert');
+        if ( flash_alert.length > 0 ) {
+            flash_alert = flash_alert[0];
+        } else {
+            flash_alert = null;
+        }
+
         console.log('flash:',flash_msg);
 
         res.render('dept/list', {
             depts: depts,
             pageTitle: 'All Dept',
             index: 'dept',
-            flash_msg: flash_msg
+            flash_msg: flash_msg,
+            flash_alert: flash_alert
         });
     })
     .catch(err => {
@@ -65,9 +74,29 @@ exports.postAdd = (req, res, next) => {
     .then(result => {
         console.log('Dept created');
         req.flash('flash_msg', 'new dept added!');
+        req.flash('flash_alert', 'success');
         res.redirect('/dept');
     })
     .catch(err => {
         console.log(err);
     });
+}
+
+exports.deleteDept = (req, res, next) => {
+    // console.log(req.body);
+    // res.send(req.body);
+
+    const deptId = req.body.deptId;
+    Dept.findByPk(deptId)
+            .then(dept => {
+                return dept.destroy();
+                // res.send(dept);
+            })
+            .then(result => {
+                console.log('destroyed');
+                req.flash('flash_msg', 'Dept deleted!');
+                req.flash('flash_alert', 'danger');
+                res.redirect('/dept');
+            })
+            .catch()
 }
