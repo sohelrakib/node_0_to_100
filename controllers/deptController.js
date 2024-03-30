@@ -24,6 +24,13 @@ exports.index = (req, res, next) => {
             flash_msg = null;
         }
 
+        let flash_keyword = req.flash('flash_keyword');
+        if ( flash_keyword.length > 0 ) {
+            flash_keyword = flash_keyword[0];
+        } else {
+            flash_keyword = null;
+        }
+
         let flash_alert = req.flash('flash_alert');
         if ( flash_alert.length > 0 ) {
             flash_alert = flash_alert[0];
@@ -38,6 +45,7 @@ exports.index = (req, res, next) => {
             pageTitle: 'All Dept',
             index: 'dept',
             flash_msg: flash_msg,
+            flash_keyword: flash_keyword,
             flash_alert: flash_alert
         });
     })
@@ -89,14 +97,37 @@ exports.deleteDept = (req, res, next) => {
     const deptId = req.body.deptId;
     Dept.findByPk(deptId)
             .then(dept => {
+                req.flash('flash_keyword', dept.name);
                 return dept.destroy();
                 // res.send(dept);
+                // console.log(dept.name);
             })
             .then(result => {
                 console.log('destroyed');
+                console.log(result);
                 req.flash('flash_msg', 'Dept deleted!');
                 req.flash('flash_alert', 'danger');
                 res.redirect('/dept');
             })
             .catch()
+}
+
+exports.edit = (req, res, next) => {
+    const deptId = req.params.id;
+    console.log(deptId);
+
+    Dept.findByPk(deptId)
+        .then(dept => {
+            if (!dept) {
+                return res.redirect('/dept');
+            }
+            res.render('dept/edit', { 
+                pageTitle: 'Edit Dept',
+                index: 'edit',
+                dept: dept
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }

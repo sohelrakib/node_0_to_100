@@ -1,0 +1,32 @@
+<%- include('../master/head.ejs') %>
+    
+<div class="row">
+    <div class="col-md-8">
+
+        <h2 class="text-center p-4">Update Dept</h2>
+        
+        <form action="/dept/add" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            
+            <div class="mb-3 mt-3">
+              <label for="name">Name:</label>
+              <input type="text" class="form-control" id="name" placeholder="enter dept name" name="name" value="<%= dept.name %>" required>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="dept">Status:</label>
+                <select name="status" class="form-control">
+                    <option value="1">enable</option>
+                    <option value="0">disable</option>
+                  </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+    </div>
+</div>
+
+
+<%- include('../master/tail.ejs') %>

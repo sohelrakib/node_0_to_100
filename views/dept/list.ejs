@@ -6,6 +6,7 @@
       <% if (flash_msg) { %>
         <!-- <div class="<%= 'alert alert-' + flash_alert %>" > -->
         <div class="alert alert-<%= flash_alert %>" >
+          <%= flash_keyword %>
           <%= flash_msg %>
         </div>
       <% } %>
@@ -17,7 +18,8 @@
               <tr>
                 <th>Name</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -27,7 +29,10 @@
                   <td><%= dept.name %></td>
                   <td><%= dept.status ? 'Enable' : 'Disable' %></td>
                   <td>
-                    <form action="/dept/delete" method="post">
+                    <a href="/dept/edit/<%= dept.id %>" class="btn btn-success btn-width-full">Edit</a>
+                  </td>
+                  <td>
+                    <form id="deleteRecord" action="/dept/delete" method="post">
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                       <input type="hidden" name="deptId" value="<%= dept.id %>" />
                       <button class="btn btn-danger btn-width-full" type="submit">Delete</button>

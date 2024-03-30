@@ -1,5 +1,19 @@
 
 </div>
-  
+<script>
+    $(document).ready(function() {
+        $('#deleteRecord').submit(function(event) {
+            event.preventDefault();
+            
+            // Display confirm dialog
+            var confirmation = confirm("Are you sure you want to delete this?");
+            
+            // If user confirms, submit the form
+            if (confirmation) {
+                $(this).unbind('submit').submit();
+            }
+        });
+    });
+</script>
 </body>
 </html>
