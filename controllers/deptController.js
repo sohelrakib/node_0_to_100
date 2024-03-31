@@ -131,3 +131,31 @@ exports.edit = (req, res, next) => {
             console.log(err);
         });
 }
+
+exports.update = (req, res, next) => {
+    // console.log(req.body);
+    const deptId = req.body.deptId;
+    const name = req.body.name;
+    const status = req.body.status;
+
+    if ( !name || !status ) {
+        return res.redirect('/dept/edit/'+deptId);
+    }
+
+    Dept.findByPk(deptId)
+            .then(dept => {
+                dept.name = name;
+                dept.status = status;
+                return dept.save();
+            })
+            .then(result => {
+                console.log('updated');
+
+                req.flash('flash_keyword', name);
+                req.flash('flash_msg', 'Dept updated!');
+                req.flash('flash_alert', 'success');
+
+                res.redirect('/dept');
+            })
+            .catch(err => console.log(err));
+}
