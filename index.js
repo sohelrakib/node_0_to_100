@@ -15,10 +15,14 @@ app.set('views', 'views');
 
 //importing the model, so table will be created/migrated automatically
 const Dept = require('./models/dept');
+const Admin = require('./models/admin');
 
+// ** routes **
 const userRoute = require('./routes/userRoute');
 const deptRoute = require('./routes/deptRoute');
+const adminRoute = require('./routes/adminRoute');
 const errorController = require('./controllers/errorController');
+// ** end of routes **
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
@@ -44,6 +48,7 @@ app.get('/', (req, res, next) => {
     res.redirect('/user');
 })
 
+app.use('/', adminRoute);
 app.use('/user', userRoute);
 app.use('/dept', deptRoute);
 app.use(errorController.pageNotFound);

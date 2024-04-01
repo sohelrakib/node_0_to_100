@@ -58,3 +58,11 @@ for flash message or session message: npm install --save connect-flash
 step 10:
 --------
 csrf: npm install csurf cookie-parser
+
+step 11:
+--------
+form validation: npm install express-validator
+
+step 12:
+--------
+password hashing: npm install bcrypt

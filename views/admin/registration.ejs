@@ -1,0 +1,49 @@
+<%- include('../master/head.ejs') %>
+    
+<div class="row">
+    <div class="col-md-8">
+
+        <h2 class="text-center p-4">Registration</h2>
+
+        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+            <div style="color: red;">
+                <ul>
+                    <% errors.forEach(error => { %>
+                        <li><%= error.msg %></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } %>
+        
+        <form action="/registration" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            
+            <div class="mb-3 mt-3">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="enter your name" name="name" required>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" placeholder="enter your email" name="email" required>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" placeholder="enter password" name="password" required>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirm_password" placeholder="enter password again" name="confirm_password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+    </div>
+</div>
+
+
+<%- include('../master/tail.ejs') %>
