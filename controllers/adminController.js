@@ -1,10 +1,28 @@
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 
+const AdminModel = require('../models/admin');
+
 exports.registration = (req, res, next) => {
+    let flash_msg = req.flash('flash_msg');
+    if ( flash_msg.length > 0 ) {
+        flash_msg = flash_msg[0];
+    } else {
+        flash_msg = null;
+    }
+
+    let flash_alert = req.flash('flash_alert');
+    if ( flash_alert.length > 0 ) {
+        flash_alert = flash_alert[0];
+    } else {
+        flash_alert = null;
+    }
+
     res.render('admin/registration', { 
         pageTitle: 'Admin Registration',
-        index: 'registration'
+        index: 'registration',
+        flash_msg: flash_msg,
+        flash_alert: flash_alert,
     });
 }
 
@@ -19,6 +37,19 @@ exports.postRegistration = [
         }
         return true;
     }),
+    body('email').custom(async (value) => {
+        try {
+            const admin = await AdminModel.findOne({ where: { email: value } });
+            if (admin) {
+                throw new Error('Admin user already exists');
+            }
+            return true; // Validation passes if no admin with the same email is found
+        } catch (error) {
+            console.error('Error:', error);
+            throw new Error(error);
+        }
+    }),
+
 
     (req, res, next) => {
         const errors = validationResult(req);
@@ -38,7 +69,61 @@ exports.postRegistration = [
                 return res.status(500).send('Error hashing password');
             }
             // Send the hashed password as response
-            res.send(hash);
+            // res.send(hash);
+            AdminModel.create({
+                name: req.body.name,
+                email: req.body.email,
+                password: hash,
+            })
+            .then(result => {
+                console.log('registration done:');
+                console.log(result.name);
+                req.flash('flash_msg', 'Registration done, please login!');
+                req.flash('flash_alert', 'success');
+                req.flash('flash_keyword', result.name);
+                res.redirect('/login');
+            })
+            .catch(err => {
+                return res.status(500).send('Please try with a different email!');
+                // console.log('registration error:');
+                // console.log(err);
+                // req.flash('flash_msg', 'Please try with a different email!');
+                // req.flash('flash_alert', 'danger');
+                // res.redirect('/registration');
+            });
+
         });
     }
 ];
+
+
+exports.login = (req, res, next) => {
+    let flash_msg = req.flash('flash_msg');
+    if ( flash_msg.length > 0 ) {
+        flash_msg = flash_msg[0];
+    } else {
+        flash_msg = null;
+    }
+
+    let flash_keyword = req.flash('flash_keyword');
+    if ( flash_keyword.length > 0 ) {
+        flash_keyword = flash_keyword[0];
+    } else {
+        flash_keyword = null;
+    }
+
+    let flash_alert = req.flash('flash_alert');
+    if ( flash_alert.length > 0 ) {
+        flash_alert = flash_alert[0];
+    } else {
+        flash_alert = null;
+    }
+
+    res.render('admin/login', { 
+        pageTitle: 'Admin Login',
+        index: 'login',
+        flash_msg: flash_msg,
+        flash_keyword: flash_keyword,
+        flash_alert: flash_alert
+    });
+}
