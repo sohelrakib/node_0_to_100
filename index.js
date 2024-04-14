@@ -16,6 +16,7 @@ app.set('views', 'views');
 //importing the model, so table will be created/migrated automatically
 const Dept = require('./models/dept');
 const Admin = require('./models/admin');
+const User = require('./models/user');
 
 // ** routes **
 const userRoute = require('./routes/userRoute');
@@ -59,8 +60,8 @@ app.use(errorController.pageNotFound);
 // });
 
 
-// sequelize.sync({ force: true })
-sequelize.sync()
+sequelize.sync({ force: true })
+// sequelize.sync()
     .then( () => {
         // app.listen(3000);
         app.listen(PORT, () => {
