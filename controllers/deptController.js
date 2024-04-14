@@ -46,7 +46,8 @@ exports.index = (req, res, next) => {
             index: 'dept',
             flash_msg: flash_msg,
             flash_keyword: flash_keyword,
-            flash_alert: flash_alert
+            flash_alert: flash_alert,
+            admin_user: req.session.user,
         });
     })
     .catch(err => {

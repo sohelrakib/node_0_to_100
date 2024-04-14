@@ -18,7 +18,10 @@
   
   <%- include('./nav.ejs') %>
   <div class="container mt-3">
-    
 
+    <% if (typeof admin_user !== 'undefined') { %>
+      <!-- Show content if variable exists -->
+      <p>User: <%= admin_user.email %></p>
+    <% } %>
  
   

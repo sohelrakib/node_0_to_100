@@ -23,6 +23,14 @@
             <a class="nav-link <%= index === 'dept.add' ? 'active' : '' %>" href="/dept/add">Add a Dept</a>
           </li> 
 
+          <li>
+            <a>
+              <form action="/logout" method="post">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                  <button type="submit">Logout</button>
+              </form>
+            </a>
+          </li>
           
         </ul>
       </div>

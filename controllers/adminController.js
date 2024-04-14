@@ -127,3 +127,60 @@ exports.login = (req, res, next) => {
         flash_alert: flash_alert
     });
 }
+
+
+exports.postLogin = async (req, res, next) => {
+    // res.send(req.body);
+    const loggedInUser = await authenticateUser(req.body.email, req.body.password);
+    if (loggedInUser) {
+        req.flash('flash_keyword', loggedInUser.email);
+        req.flash('flash_msg', 'Welcome');
+        req.flash('flash_alert', 'success');
+
+        req.session.isLoggedIn = true;
+        req.session.user = loggedInUser;
+
+        res.redirect('/dept');
+    } else {
+        // console.log('Invalid username or password.');
+        req.flash('flash_keyword', null);
+        req.flash('flash_msg', 'Invalid username or password.');
+        req.flash('flash_alert', 'danger');
+
+        res.redirect('/login');
+    }
+}
+
+// Function to authenticate a user
+async function authenticateUser(email, password) {
+    // Retrieve the user from the database based on the username
+    const admin = await AdminModel.findOne({ where: { email: email }  });
+
+    if (!admin) {
+        // admin not found
+        return false;
+    }
+
+    // Compare the hashed password in the database with the provided password
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
+
+    if (!isPasswordValid) {
+        // Incorrect password
+        return false;
+    }
+
+    // Password is correct, return the user
+    return admin;
+}
+
+exports.postLogout = async (req, res, next) => {
+    await req.session.destroy();
+    res.redirect('/login');
+}
+
+exports.postLogout2 = (req, res, next) => {
+    req.session.destroy(() => {
+        // req.flash('error', 'logout!');
+        res.redirect('/login');
+    })
+}
